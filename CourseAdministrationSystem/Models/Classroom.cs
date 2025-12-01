@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace CourseAdministrationSystem.Models;
 
 [Table("Classroom")]
-public partial class Classroom
+public class Classroom
 {
     [Key]
     public int ClassroomId { get; set; }
-    public ICollection<Course> Courses { get; set; }
-    public ICollection<Schedule> Schedules { get; set; }
 
+    // Navigation properties
+    public ICollection<Course> Courses { get; set; } = new List<Course>();
+    public ICollection<Schedule> Schedules { get; set; } = new List<Schedule>();
 }

@@ -25,9 +25,9 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
-    <Folder Include="procedures\" />
-    <Folder Include="views\" />
-    <Folder Include="schema\" />
+    <Folder Include="Procedures\" />
+    <Folder Include="Views\" />
+    <Folder Include="Schema\" />
   </ItemGroup>
 
   <ItemGroup>

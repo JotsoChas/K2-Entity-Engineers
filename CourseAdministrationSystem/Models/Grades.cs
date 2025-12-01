@@ -1,4 +1,8 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace CourseAdministrationSystem.Models;
 
 public class Grades
 {
@@ -11,20 +15,21 @@ public class Grades
     [Required]
     public DateTime GradesDate { get; set; }
 
-    //Foreign key to Student
+    // Foreign key to Student
     public int StudentId { get; set; }
-    [ForeignKey("FkStudentId")]
+
+    [ForeignKey("StudentId")]
     public Student Student { get; set; }
 
-    //Foreign key to Course
+    // Foreign key to Course
     public int CourseId { get; set; }
-    [ForeignKey("FkCourseId")]
+
+    [ForeignKey("CourseId")]
     public Course Course { get; set; }
 
-    //Foreign key to Teacher
+    // Foreign key to Teacher
     public int TeacherId { get; set; }
-    [ForeignKey("FkTeacherId")]
+
+    [ForeignKey("TeacherId")]
     public Teacher Teacher { get; set; }
-
-
 }

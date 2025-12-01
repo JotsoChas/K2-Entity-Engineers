@@ -11,4 +11,7 @@ public partial class Classroom
 {
     [Key]
     public int ClassroomId { get; set; }
+    public ICollection<Course> Courses { get; set; }
+    public ICollection<Schedule> Schedules { get; set; }
+
 }

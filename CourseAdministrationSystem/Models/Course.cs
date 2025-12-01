@@ -30,4 +30,8 @@ public class Course
 
     [ForeignKey("TeacherId")]
     public Teacher Teacher { get; set; }
+    public ICollection<Schedule> Schedules { get; set; }
+    public ICollection<Grades> Grades { get; set; }
+    public ICollection<StudentCourses> StudentCourses { get; set; }
+
 }

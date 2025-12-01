@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace CourseAdministrationSystem.Models;
 
@@ -19,4 +18,8 @@ public partial class Teacher
     [Required]
     [StringLength(50)]
     public string TeacherLastName { get; set; }
+
+    public ICollection<Grades> Grades { get; set; }
+    public ICollection<Course> Courses { get; set; }
+
 }

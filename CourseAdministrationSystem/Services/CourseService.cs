@@ -5,19 +5,19 @@ namespace CourseAdministrationSystem.Services
 {
     public class CourseService
     {
-        public void AddCourse(
-            K2DbContext db,
-            string name,
-            DateTime start,
-            DateTime end,
-            int teacherId,
-            int classroomId)
+        public int AddCourse(
+        K2DbContext db,
+        string courseName,
+        DateTime startDate,
+        DateTime endDate,
+        int teacherId,
+         int classroomId)
         {
             var course = new Course
             {
-                CourseName = name,
-                CourseStart = start,
-                CourseEnd = end,
+                CourseName = courseName,
+                CourseStart = startDate,
+                CourseEnd = endDate,
                 TeacherId = teacherId,
                 ClassroomId = classroomId
             };
@@ -26,6 +26,9 @@ namespace CourseAdministrationSystem.Services
             db.SaveChanges();
 
             Console.WriteLine($"Course added with ID: {course.CourseId}");
+
+            return course.CourseId;
         }
+
     }
 }

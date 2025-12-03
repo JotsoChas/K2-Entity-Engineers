@@ -1,0 +1,8 @@
+﻿SELECT * 
+FROM Classroom;
+
+INSERT INTO Classroom
+DEFAULT VALUES;
+
+DELETE FROM Classroom
+WHERE ClassroomId = ID_HERE;

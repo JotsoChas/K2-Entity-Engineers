@@ -93,3 +93,43 @@ SET @G3 = SCOPE_IDENTITY();
 INSERT INTO Grades (Grade, GradesDate, StudentId, CourseId, TeacherId)
 VALUES (5, '2025-02-20', @Student3, @Course2, @Teacher2);
 SET @G4 = SCOPE_IDENTITY();
+
+DECLARE @Course4 INT, @SC6 INT, @Schedule4 INT, @G5 INT;
+
+INSERT INTO Courses (CourseName, CourseStart, CourseEnd, ClassroomId, TeacherId)
+VALUES ('Advanced Strategy', '2025-06-01', '2025-12-31', @Classroom1, @Teacher1);
+SET @Course4 = SCOPE_IDENTITY();
+
+INSERT INTO StudentCourses (StudentId, CourseId)
+VALUES (@Student1, @Course4);
+SET @SC6 = SCOPE_IDENTITY();
+
+INSERT INTO Schedule (CourseId, ClassroomId)
+VALUES (@Course4, @Classroom1);
+SET @Schedule4 = SCOPE_IDENTITY();
+
+INSERT INTO Grades (Grade, GradesDate, StudentId, CourseId, TeacherId)
+VALUES (5, '2025-06-15', @Student1, @Course4, @Teacher1);
+SET @G5 = SCOPE_IDENTITY();
+
+
+--test data not approved student
+DECLARE @StudentFail INT, @SCFail INT, @GFail INT;
+
+-- Create student
+INSERT INTO Student (StudentFirstName, StudentLastName)
+VALUES ('Lisa', 'Nilsson');
+SET @StudentFail = SCOPE_IDENTITY();
+
+-- Register student to a course (use Course 1)
+INSERT INTO StudentCourses (StudentId, CourseId)
+VALUES (@StudentFail, @Course1);
+SET @SCFail = SCOPE_IDENTITY();
+
+-- Add failing grade (Grade = 2)
+INSERT INTO Grades (Grade, GradesDate, StudentId, CourseId, TeacherId)
+VALUES (2, '2025-03-05', @StudentFail, @Course1, @Teacher1);
+SET @GFail = SCOPE_IDENTITY();
+
+
+

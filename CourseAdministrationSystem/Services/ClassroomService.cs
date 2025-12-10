@@ -11,11 +11,26 @@ namespace CourseAdministrationSystem.Services
         {
             var classroom = new Classroom();
 
-            db.Classrooms.Add(classroom);
-            db.SaveChanges();
+            try
+            {
+                db.Classrooms.Add(classroom);
+                db.SaveChanges();
 
-            Console.WriteLine($"Classroom created with ID: {classroom.ClassroomId}");
-            return classroom.ClassroomId;
+                Console.WriteLine($"Classroom created with ID: {classroom.ClassroomId}");
+                return classroom.ClassroomId;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return 0;
+            }
+            catch
+            {
+                Console.WriteLine("Unknown Error when creating classroom");
+                return 0;
+            }
+            
+            
         }
 
         // List classrooms

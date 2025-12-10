@@ -1,5 +1,6 @@
 ﻿using CourseAdministrationSystem.Data;
 using CourseAdministrationSystem.Models;
+using Utils;
 
 namespace CourseAdministrationSystem.Services
 {

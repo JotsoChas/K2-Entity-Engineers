@@ -15,56 +15,81 @@ namespace CourseAdministrationSystem.Services
             int teacherId,
             int classroomId)
         {
-            var course = new Course
+            try { 
+                var course = new Course
+                {
+                    CourseName = courseName,
+                    CourseStart = startDate,
+                    CourseEnd = endDate,
+                    TeacherId = teacherId,
+                    ClassroomId = classroomId
+                };
+
+                db.Courses.Add(course);
+                db.SaveChanges();
+
+                Console.WriteLine($"Course added with ID: {course.CourseId}");
+                return course.CourseId;
+            }
+            catch
             {
-                CourseName = courseName,
-                CourseStart = startDate,
-                CourseEnd = endDate,
-                TeacherId = teacherId,
-                ClassroomId = classroomId
-            };
-
-            db.Courses.Add(course);
-            db.SaveChanges();
-
-            Console.WriteLine($"Course added with ID: {course.CourseId}");
-            return course.CourseId;
+                Console.WriteLine("Unknown Error when creating course");
+                return 0;
+            }
         }
 
         // Edit course
         public void EditCourse(K2DbContext db, int courseId)
         {
-            var course = db.Courses.FirstOrDefault(c => c.CourseId == courseId);
-            if (course == null)
+            try
             {
-                Console.WriteLine("Course not found.");
-                return;
+
+                var course = db.Courses.FirstOrDefault(c => c.CourseId == courseId);
+                if (course == null)
+                {
+                    Console.WriteLine("Course not found.");
+                    return;
+                }
+
+                Console.Write($"New course name ({course.CourseName}): ");
+                var name = Console.ReadLine();
+
+                if (!string.IsNullOrWhiteSpace(name))
+                    course.CourseName = name;
+
+                db.SaveChanges();
+                Console.WriteLine("Course updated successfully.");
+
             }
-
-            Console.Write($"New course name ({course.CourseName}): ");
-            var name = Console.ReadLine();
-
-            if (!string.IsNullOrWhiteSpace(name))
-                course.CourseName = name;
-
-            db.SaveChanges();
-            Console.WriteLine("Course updated successfully.");
+            catch
+            {
+                Console.WriteLine("Unknow Error when trying to edit course");
+            }
         }
 
         // Delete course
         public void DeleteCourse(K2DbContext db, int courseId)
         {
-            var course = db.Courses.FirstOrDefault(c => c.CourseId == courseId);
-            if (course == null)
+            
+            try
             {
-                Console.WriteLine("Course not found.");
-                return;
+                var course = db.Courses.FirstOrDefault(c => c.CourseId == courseId);
+                if (course == null)
+                {
+                    Console.WriteLine("Course not found.");
+                    return;
+                }
+
+                db.Courses.Remove(course);
+                db.SaveChanges();
+
+                Console.WriteLine("Course deleted successfully.");
             }
-
-            db.Courses.Remove(course);
-            db.SaveChanges();
-
-            Console.WriteLine("Course deleted successfully.");
+            catch
+            {
+                Console.WriteLine("Unknown Error! Could not delete course");
+            }
+           
         }
 
         // List courses
@@ -87,6 +112,7 @@ namespace CourseAdministrationSystem.Services
         // Show active courses with students
         public void ShowActiveCourses(K2DbContext db)
         {
+            try { 
             var today = DateTime.Today;
 
             var activeCourses =
@@ -116,6 +142,11 @@ namespace CourseAdministrationSystem.Services
                 }
 
                 Console.WriteLine();
+            }
+            }
+            catch
+            {
+                Console.WriteLine("Unknown Error - could not list active courses");
             }
         }
 

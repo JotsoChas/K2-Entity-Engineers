@@ -9,19 +9,32 @@ namespace CourseAdministrationSystem.Services
         // Add classroom
         public int AddClassroom(K2DbContext db)
         {
-            var classroom = new Classroom();
+            try
+            {
+                var classroom = new Classroom();
 
-            db.Classrooms.Add(classroom);
-            db.SaveChanges();
+                db.Classrooms.Add(classroom);
+                db.SaveChanges();
 
-            Console.WriteLine($"Classroom created with ID: {classroom.ClassroomId}");
-            return classroom.ClassroomId;
+                Console.WriteLine($"Classroom created with ID: {classroom.ClassroomId}");
+                return classroom.ClassroomId;
+            }
+            catch
+            {
+                ConsoleHelper.WriteError("Something went wrong creating a new Classroom");
+                return 0;
+            }
+
         }
 
         // List classrooms
         public void ListClassrooms(K2DbContext db)
         {
-            var list = db.Classrooms.ToList();
+            try
+            {
+                var list = db.Classrooms.ToList();
+           
+
 
             if (list.Count == 0)
             {
@@ -33,14 +46,27 @@ namespace CourseAdministrationSystem.Services
             {
                 Console.WriteLine($"Classroom ID: {c.ClassroomId}");
             }
+            }
+            catch
+            {
+                ConsoleHelper.WriteError("Could not fetch Classroom list");
+            }
         }
 
         // Menu method (add)
         public void AddClassroomMenu(K2DbContext db)
         {
             Console.WriteLine("Creating new classroom...");
-            AddClassroom(db);
-        }
+            try
+            {
+                AddClassroom(db);
+            }
+            catch
+            {
+                ConsoleHelper.WriteError("Failed to create new Classroom");
+            }
+         }
+            
 
         // Menu method (list)
         public void ListClassroomsMenu(K2DbContext db)

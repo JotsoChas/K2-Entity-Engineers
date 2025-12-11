@@ -9,25 +9,35 @@ namespace CourseAdministrationSystem.Services
         // Add grade
         public void AddGrade(K2DbContext db, int studentId, int courseId, int teacherId, int grade)
         {
-            var newGrade = new Grades
+            try
             {
-                StudentId = studentId,
-                CourseId = courseId,
-                TeacherId = teacherId,
-                Grade = grade,
-                GradesDate = DateTime.Now
-            };
+                var newGrade = new Grades
+                {
+                    StudentId = studentId,
+                    CourseId = courseId,
+                    TeacherId = teacherId,
+                    Grade = grade,
+                    GradesDate = DateTime.Now
+                };
 
-            db.Grades.Add(newGrade);
-            db.SaveChanges();
+                db.Grades.Add(newGrade);
+                db.SaveChanges();
 
-            Console.WriteLine($"Grade created with ID: {newGrade.GradeId}");
+                Console.WriteLine($"Grade created with ID: {newGrade.GradeId}");
+            }
+            catch
+            {
+                ConsoleHelper.WriteError("Could not add grade");
+            }
+            
         }
 
         // Show student grade overview
         public void ShowGradeOverview(K2DbContext db, int studentId)
         {
-            var result =
+            try
+            {
+                var result =
                 from sc in db.StudentCourses
                 join c in db.Courses on sc.CourseId equals c.CourseId
                 join g in db.Grades on
@@ -46,155 +56,234 @@ namespace CourseAdministrationSystem.Services
                     t.TeacherLastName
                 };
 
-            var list = result.ToList();
+                var list = result.ToList();
 
-            if (list.Count == 0)
-            {
-                Console.WriteLine("No grade data found.");
-                return;
-            }
+                if (list.Count == 0)
+                {
+                    Console.WriteLine("No grade data found.");
+                    return;
+                }
 
-            foreach (var row in list)
-            {
-                Console.WriteLine($"{row.CourseName} - {row.Grade} - {row.TeacherFirstName} {row.TeacherLastName} ({row.GradesDate})");
+                foreach (var row in list)
+                {
+                    Console.WriteLine($"{row.CourseName} - {row.Grade} - {row.TeacherFirstName} {row.TeacherLastName} ({row.GradesDate})");
+                }
             }
+            catch
+            {
+                ConsoleHelper.WriteError("Something went wrong. Returning to menu...");
+            }
+            
         }
 
         // Report per year
         public void ReportYear(K2DbContext db, int year)
         {
-            var result = db.Grades
-                .Where(g => g.GradesDate.Year == year)
-                .GroupBy(g => g.Grade >= 3)
-                .Select(g => new
-                {
-                    Approved = g.Key,
-                    Count = g.Count()
-                })
-                .ToList();
+        try
+            {
+                var result = db.Grades
+               .Where(g => g.GradesDate.Year == year)
+               .GroupBy(g => g.Grade >= 3)
+               .Select(g => new
+               {
+                   Approved = g.Key,
+                   Count = g.Count()
+               })
+               .ToList();
 
-            ShowReport(result);
+                ShowReport(result);
+            }
+            catch
+            {
+                ConsoleHelper.WriteError("Failed to create report");
+            }
+           
         }
 
         // Report per half year
         public void ReportHalfYear(K2DbContext db, int year, int half)
         {
-            int startMonth = half == 1 ? 1 : 7;
-            int endMonth = half == 1 ? 6 : 12;
+            try
+            {
+                int startMonth = half == 1 ? 1 : 7;
+                int endMonth = half == 1 ? 6 : 12;
 
-            var result = db.Grades
-                .Where(g => g.GradesDate.Year == year &&
-                            g.GradesDate.Month >= startMonth &&
-                            g.GradesDate.Month <= endMonth)
-                .GroupBy(g => g.Grade >= 3)
-                .Select(g => new
-                {
-                    Approved = g.Key,
-                    Count = g.Count()
-                })
-                .ToList();
+                var result = db.Grades
+                    .Where(g => g.GradesDate.Year == year &&
+                                g.GradesDate.Month >= startMonth &&
+                                g.GradesDate.Month <= endMonth)
+                    .GroupBy(g => g.Grade >= 3)
+                    .Select(g => new
+                    {
+                        Approved = g.Key,
+                        Count = g.Count()
+                    })
+                    .ToList();
 
-            ShowReport(result);
+                ShowReport(result);
+            }
+            catch
+            {
+                ConsoleHelper.WriteError("Failed to create report");
+            }
+
         }
 
         // Report per quarter
         public void ReportQuarter(K2DbContext db, int year, int quarter)
         {
-            int startMonth = (quarter - 1) * 3 + 1;
-            int endMonth = startMonth + 2;
+            try
+            {
+                int startMonth = (quarter - 1) * 3 + 1;
+                int endMonth = startMonth + 2;
 
-            var result = db.Grades
-                .Where(g => g.GradesDate.Year == year &&
-                            g.GradesDate.Month >= startMonth &&
-                            g.GradesDate.Month <= endMonth)
-                .GroupBy(g => g.Grade >= 3)
-                .Select(g => new
-                {
-                    Approved = g.Key,
-                    Count = g.Count()
-                })
-                .ToList();
+                var result = db.Grades
+                    .Where(g => g.GradesDate.Year == year &&
+                                g.GradesDate.Month >= startMonth &&
+                                g.GradesDate.Month <= endMonth)
+                    .GroupBy(g => g.Grade >= 3)
+                    .Select(g => new
+                    {
+                        Approved = g.Key,
+                        Count = g.Count()
+                    })
+                    .ToList();
 
-            ShowReport(result);
+                ShowReport(result);
+            }
+            catch
+            {
+                ConsoleHelper.WriteError("Failed to create report");
+            }
+
+
         }
 
         // Shared report renderer
         private void ShowReport<T>(List<T> result)
         {
-            if (result.Count == 0)
+            try
             {
-                Console.WriteLine("No data found.");
-                return;
-            }
+                if (result.Count == 0)
+                {
+                    Console.WriteLine("No data found.");
+                    return;
+                }
 
-            foreach (var r in result)
+                foreach (var r in result)
+                {
+                    var approved = (bool)(r.GetType().GetProperty("Approved")?.GetValue(r) ?? false);
+                    var count = (int)(r.GetType().GetProperty("Count")?.GetValue(r) ?? 0);
+
+                    var status = approved ? "Approved" : "Not approved";
+                    Console.WriteLine($"{status}: {count}");
+                }
+            }
+            catch
             {
-                var approved = (bool)(r.GetType().GetProperty("Approved")?.GetValue(r) ?? false);
-                var count = (int)(r.GetType().GetProperty("Count")?.GetValue(r) ?? 0);
-
-                var status = approved ? "Approved" : "Not approved";
-                Console.WriteLine($"{status}: {count}");
+                ConsoleHelper.WriteError("Failed to create report");
             }
+            
         }
 
         // Menu: Add grade
         public void AddGradeMenu(K2DbContext db)
         {
-            Console.Write("Student ID: ");
-            int studentId = int.Parse(Console.ReadLine()!);
+            try
+            {
+                Console.Write("Student ID: ");
+                int studentId = int.Parse(Console.ReadLine()!);
 
-            Console.Write("Course ID: ");
-            int courseId = int.Parse(Console.ReadLine()!);
+                Console.Write("Course ID: ");
+                int courseId = int.Parse(Console.ReadLine()!);
 
-            Console.Write("Teacher ID: ");
-            int teacherId = int.Parse(Console.ReadLine()!);
+                Console.Write("Teacher ID: ");
+                int teacherId = int.Parse(Console.ReadLine()!);
 
-            Console.Write("Grade (1-5): ");
-            int grade = int.Parse(Console.ReadLine()!);
+                Console.Write("Grade (1-5): ");
+                int grade = int.Parse(Console.ReadLine()!);
 
-            AddGrade(db, studentId, courseId, teacherId, grade);
+                AddGrade(db, studentId, courseId, teacherId, grade);
+            }
+            catch
+            {
+                ConsoleHelper.WriteError("Something went wrong. Returning to menu");
+            }
+
         }
 
         // Menu: grade overview
         public void ShowGradeOverviewMenu(K2DbContext db)
         {
-            Console.Write("Student ID: ");
-            int id = int.Parse(Console.ReadLine()!);
+            try
+            {
+                Console.Write("Student ID: ");
+                int id = int.Parse(Console.ReadLine()!);
 
-            ShowGradeOverview(db, id);
+                ShowGradeOverview(db, id);
+            }
+            catch
+            {
+                ConsoleHelper.WriteError("Something went wrong...");
+            }
+           
         }
 
         // Menu: report yearly
         public void ReportYearMenu(K2DbContext db)
         {
-            Console.Write("Year: ");
-            int year = int.Parse(Console.ReadLine()!);
+            try
+            {
+                Console.Write("Year: ");
+                int year = int.Parse(Console.ReadLine()!);
 
-            ReportYear(db, year);
+                ReportYear(db, year);
+            }
+            catch
+            {
+                ConsoleHelper.WriteError("Something went wrong...");
+            }
+
         }
 
         // Menu: report half year
         public void ReportHalfYearMenu(K2DbContext db)
         {
-            Console.Write("Year: ");
-            int year = int.Parse(Console.ReadLine()!);
+            try
+            {
+                Console.Write("Year: ");
+                int year = int.Parse(Console.ReadLine()!);
 
-            Console.Write("Half (1 or 2): ");
-            int half = int.Parse(Console.ReadLine()!);
+                Console.Write("Half (1 or 2): ");
+                int half = int.Parse(Console.ReadLine()!);
 
-            ReportHalfYear(db, year, half);
+                ReportHalfYear(db, year, half);
+            }
+            catch
+            {
+                ConsoleHelper.WriteError("Something went wrong...");
+            }
+ 
         }
 
         // Menu: report quarter
         public void ReportQuarterMenu(K2DbContext db)
         {
-            Console.Write("Year: ");
-            int year = int.Parse(Console.ReadLine()!);
+            try
+            {
+                Console.Write("Year: ");
+                int year = int.Parse(Console.ReadLine()!);
 
-            Console.Write("Quarter (1-4): ");
-            int quarter = int.Parse(Console.ReadLine()!);
+                Console.Write("Quarter (1-4): ");
+                int quarter = int.Parse(Console.ReadLine()!);
 
-            ReportQuarter(db, year, quarter);
+                ReportQuarter(db, year, quarter);
+            }
+            catch
+            {
+                ConsoleHelper.WriteError("Something went wrong...");
+            }
+
         }
     }
 }

@@ -213,14 +213,15 @@ namespace CourseAdministrationSystem.Services
             try
             {
                 ListCourses(db);
-                Console.ReadKey();
+                ConsoleHelper.WaitForContinue();  // ★ denna fixar allt
             }
             catch
             {
                 ConsoleHelper.WriteError("Could not list courses");
+                ConsoleHelper.WaitForContinue();
             }
-
         }
+
 
         public void ShowActiveCoursesMenu(K2DbContext db)
         {

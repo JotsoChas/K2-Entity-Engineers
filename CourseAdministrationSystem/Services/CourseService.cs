@@ -132,7 +132,7 @@ namespace CourseAdministrationSystem.Services
 
                 if (activeCourses.Count == 0)
                 {
-                    Console.WriteLine("No active courses found.");
+                    Console.WriteLine("No active courses found.");                 
                     return;
                 }
 
@@ -152,6 +152,7 @@ namespace CourseAdministrationSystem.Services
                     }
 
                     Console.WriteLine();
+                    
                 }
 
             }
@@ -212,6 +213,7 @@ namespace CourseAdministrationSystem.Services
             try
             {
                 ListCourses(db);
+                Console.ReadKey();
             }
             catch
             {
@@ -225,6 +227,7 @@ namespace CourseAdministrationSystem.Services
             try
             {
                 ShowActiveCourses(db);
+                Console.ReadKey();
             }
             catch
             {

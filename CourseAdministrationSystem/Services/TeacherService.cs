@@ -171,6 +171,7 @@ namespace CourseAdministrationSystem.Services
             try
             {
                 ListTeachers(db);
+                Console.ReadKey();
             }
             catch
             {

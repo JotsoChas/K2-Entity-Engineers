@@ -22,6 +22,7 @@ namespace Utils
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"✗ {message}");
             Console.ResetColor();
+            Console.ReadKey();
         }
 
         // warning

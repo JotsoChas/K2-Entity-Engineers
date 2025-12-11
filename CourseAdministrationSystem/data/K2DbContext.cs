@@ -10,15 +10,15 @@ public class K2DbContext : DbContext
         if (!optionsBuilder.IsConfigured)
         {
             // ALTERNATIV 1 – LocalDB
-            //optionsBuilder.UseSqlServer(
-            //    "Server=(localdb)\\MSSQLLocalDB;Database=K2DB;Trusted_Connection=True;TrustServerCertificate=True"
-            //);
+            optionsBuilder.UseSqlServer(
+                "Server=(localdb)\\MSSQLLocalDB;Database=K2DB;Trusted_Connection=True;TrustServerCertificate=True"
+            );
 
 
             // ALTERNATIV 2 – localhost
-            optionsBuilder.UseSqlServer(
-                "Server=localhost;Database=K2DB;Trusted_Connection=True;TrustServerCertificate=True;"
-            );
+            //optionsBuilder.UseSqlServer(
+            //    "Server=localhost;Database=K2DB;Trusted_Connection=True;TrustServerCertificate=True;"
+            //);
         }
     }
 

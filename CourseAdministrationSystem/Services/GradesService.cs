@@ -94,10 +94,12 @@ namespace CourseAdministrationSystem.Services
                .ToList();
 
                 ShowReport(result);
+                ConsoleHelper.WaitForContinue();
             }
             catch
             {
                 ConsoleHelper.WriteError("Failed to create report");
+                ConsoleHelper.WaitForContinue();
             }
            
         }
@@ -123,10 +125,12 @@ namespace CourseAdministrationSystem.Services
                     .ToList();
 
                 ShowReport(result);
+                ConsoleHelper.WaitForContinue();
             }
             catch
             {
                 ConsoleHelper.WriteError("Failed to create report");
+                ConsoleHelper.WaitForContinue();
             }
 
         }
@@ -152,10 +156,12 @@ namespace CourseAdministrationSystem.Services
                     .ToList();
 
                 ShowReport(result);
+                ConsoleHelper.WaitForContinue();
             }
             catch
             {
                 ConsoleHelper.WriteError("Failed to create report");
+                ConsoleHelper.WaitForContinue();
             }
 
 
@@ -237,6 +243,7 @@ namespace CourseAdministrationSystem.Services
             catch
             {
                 ConsoleHelper.WriteError("Something went wrong. Returning to menu");
+                ConsoleHelper.WaitForContinue();
             }
 
         }
@@ -255,10 +262,12 @@ namespace CourseAdministrationSystem.Services
                 }
 
                 ShowGradeOverview(db, id);
+                ConsoleHelper.WaitForContinue();
             }
             catch
             {
                 ConsoleHelper.WriteError("Something went wrong...");
+                ConsoleHelper.WaitForContinue();
             }
            
         }
@@ -277,10 +286,12 @@ namespace CourseAdministrationSystem.Services
                 }
 
                 ReportYear(db, year);
+                ConsoleHelper.WaitForContinue();
             }
             catch
             {
                 ConsoleHelper.WriteError("Something went wrong...");
+                ConsoleHelper.WaitForContinue();
             }
 
         }
@@ -307,10 +318,12 @@ namespace CourseAdministrationSystem.Services
                 }
 
                 ReportHalfYear(db, year, half);
+                ConsoleHelper.WaitForContinue();
             }
             catch
             {
                 ConsoleHelper.WriteError("Something went wrong...");
+                ConsoleHelper.WaitForContinue();
             }
  
         }
@@ -337,10 +350,12 @@ namespace CourseAdministrationSystem.Services
                 }
 
                 ReportQuarter(db, year, quarter);
+                ConsoleHelper.WaitForContinue();
             }
             catch
             {
                 ConsoleHelper.WriteError("Something went wrong...");
+                ConsoleHelper.WaitForContinue();
             }
 
         }

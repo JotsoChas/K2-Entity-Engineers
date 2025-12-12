@@ -68,6 +68,7 @@ namespace CourseAdministrationSystem.Services
             catch
             {
                 ConsoleHelper.WriteError("Oooops! Something went wrong here");
+                ConsoleHelper.WaitForContinue();
             }
 
 

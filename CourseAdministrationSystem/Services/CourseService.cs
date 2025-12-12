@@ -30,7 +30,7 @@ namespace CourseAdministrationSystem.Services
                 db.Courses.Add(course);
                 db.SaveChanges();
 
-                Console.WriteLine($"Course added with ID: {course.CourseId}");
+                ConsoleHelper.WriteSuccess($"Course added with ID: {course.CourseId}");
                 return course.CourseId;
             }
             catch
@@ -48,18 +48,19 @@ namespace CourseAdministrationSystem.Services
                 var course = db.Courses.FirstOrDefault(c => c.CourseId == courseId);
                 if (course == null)
                 {
-                    Console.WriteLine("Course not found.");
+                    ConsoleHelper.WriteWarning("Course not found");
                     return;
                 }
 
-                Console.Write($"New course name ({course.CourseName}): ");
-                var name = Console.ReadLine();
+                var name = ConsoleHelper.SafePrompt($"New course name ({course.CourseName})");
+                if (name == "<ESC>") return;
+
 
                 if (!string.IsNullOrWhiteSpace(name))
                     course.CourseName = name;
 
                 db.SaveChanges();
-                Console.WriteLine("Course updated successfully.");
+                ConsoleHelper.WriteSuccess("Course updated successfully.");
             }
             catch
             {
@@ -76,14 +77,14 @@ namespace CourseAdministrationSystem.Services
                 var course = db.Courses.FirstOrDefault(c => c.CourseId == courseId);
                 if (course == null)
                 {
-                    Console.WriteLine("Course not found.");
+                    ConsoleHelper.WriteWarning("Course not found.");
                     return;
                 }
 
                 db.Courses.Remove(course);
                 db.SaveChanges();
 
-                Console.WriteLine("Course deleted successfully.");
+                ConsoleHelper.WriteSuccess("Course deleted successfully.");
             }
             catch
             {
@@ -101,13 +102,13 @@ namespace CourseAdministrationSystem.Services
 
                 if (courses.Count == 0)
                 {
-                    Console.WriteLine("No courses found.");
+                    ConsoleHelper.WriteWarning("No courses found.");
                     return;
                 }
 
                 foreach (var c in courses)
                 {
-                    Console.WriteLine($"{c.CourseId}: {c.CourseName} ({c.CourseStart:d} - {c.CourseEnd:d})");
+                    ConsoleHelper.WriteInfo($"{c.CourseId}: {c.CourseName} ({c.CourseStart:d} - {c.CourseEnd:d})");
                 }
             }
             catch
@@ -132,13 +133,14 @@ namespace CourseAdministrationSystem.Services
 
                 if (activeCourses.Count == 0)
                 {
-                    Console.WriteLine("No active courses found.");                 
+                    ConsoleHelper.WriteWarning("No active courses found");
+                    ConsoleHelper.WaitForContinue();
                     return;
                 }
 
                 foreach (var course in activeCourses)
                 {
-                    Console.WriteLine($"{course.CourseName}:");
+                    ConsoleHelper.WriteInfo($"{course.CourseName}:");
 
                     var students =
                         from sc in db.StudentCourses
@@ -148,13 +150,12 @@ namespace CourseAdministrationSystem.Services
 
                     foreach (var s in students)
                     {
-                        Console.WriteLine($" - {s.StudentFirstName} {s.StudentLastName}");
+                        ConsoleHelper.WriteInfo($" - {s.StudentFirstName} {s.StudentLastName}");
                     }
 
                     Console.WriteLine();
-                    
                 }
-
+                ConsoleHelper.WaitForContinue();
             }
             catch
             {
@@ -168,20 +169,50 @@ namespace CourseAdministrationSystem.Services
         {
             try
             {
-                Console.Write("Course name: ");
-                var name = Console.ReadLine();
+                var name = ConsoleHelper.SafePrompt("Course name");
+                if (name == "<ESC>") return;
 
-                Console.Write("Start date (yyyy-mm-dd): ");
-                var start = DateTime.Parse(Console.ReadLine()!);
+                var startInput = ConsoleHelper.SafePrompt("Start date (yyyy-mm-dd)");
+                if (startInput == "<ESC>") return;
 
-                Console.Write("End date (yyyy-mm-dd): ");
-                var end = DateTime.Parse(Console.ReadLine()!);
+                if (!DateTime.TryParse(startInput, out var start))
+                {
+                    ConsoleHelper.WriteWarning("Invalid start date");
+                    ConsoleHelper.WaitForContinue();
+                    return;
+                }
+
+                var endInput = ConsoleHelper.SafePrompt("End date (yyyy-mm-dd)");
+                if (endInput == "<ESC>") return;
+
+                if (!DateTime.TryParse(endInput, out var end))
+                {
+                    ConsoleHelper.WriteWarning("Invalid end date");
+                    ConsoleHelper.WaitForContinue();
+                    return;
+                }
 
                 Console.Write("Teacher ID: ");
-                int teacherId = int.Parse(Console.ReadLine()!);
+                var teacherInput = ConsoleHelper.SafePrompt("Teacher ID");
+                if (teacherInput == "<ESC>") return;
 
-                Console.Write("Classroom ID: ");
-                int classroomId = int.Parse(Console.ReadLine()!);
+                if (!int.TryParse(teacherInput, out int teacherId))
+                {
+                    ConsoleHelper.WriteWarning("Invalid teacher ID");
+                    ConsoleHelper.WaitForContinue();
+                    return;
+                }
+
+                var classroomInput = ConsoleHelper.SafePrompt("Classroom ID");
+                if (classroomInput == "<ESC>") return;
+
+                if (!int.TryParse(classroomInput, out int classroomId))
+                {
+                    ConsoleHelper.WriteWarning("Invalid classroom ID");
+                    ConsoleHelper.WaitForContinue();
+                    return;
+                }
+
 
                 AddCourse(db, name!, start, end, teacherId, classroomId);
             }
@@ -213,7 +244,7 @@ namespace CourseAdministrationSystem.Services
             try
             {
                 ListCourses(db);
-                ConsoleHelper.WaitForContinue();  // ★ denna fixar allt
+                ConsoleHelper.WaitForContinue();
             }
             catch
             {
@@ -228,7 +259,7 @@ namespace CourseAdministrationSystem.Services
             try
             {
                 ShowActiveCourses(db);
-                Console.ReadKey();
+                ConsoleHelper.WaitForContinue();
             }
             catch
             {

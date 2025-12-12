@@ -20,8 +20,9 @@ namespace CourseAdministrationSystem.Services
                 db.Schedules.Add(schedule);
                 db.SaveChanges();
 
-                Console.WriteLine($"Schedule created with ID: {schedule.ScheduleId}");
+                ConsoleHelper.WriteSuccess($"Schedule created with ID: {schedule.ScheduleId}");
                 return schedule.ScheduleId;
+
             }
             catch
             {
@@ -41,19 +42,28 @@ namespace CourseAdministrationSystem.Services
 
                 if (!db.Courses.Any(c => c.CourseId == courseId))
                 {
-                    Console.WriteLine("Error: Course does not exist.");
+                    ConsoleHelper.WriteWarning("Course does not exist");
+                    ConsoleHelper.WaitForContinue();
                     return;
                 }
 
-                Console.Write("Classroom ID: ");
-                int classroomId = int.Parse(Console.ReadLine()!);
+                var classroomInput = ConsoleHelper.SafePrompt("Classroom ID");
+                if (!int.TryParse(classroomInput, out int classroomId))
+                {
+                    ConsoleHelper.WriteWarning("Invalid classroom ID");
+                    ConsoleHelper.WaitForContinue();
+                    return;
+                }
 
                 if (!db.Classrooms.Any(c => c.ClassroomId == classroomId))
                 {
-                    Console.WriteLine("Error: Classroom does not exist.");
+                    ConsoleHelper.WriteWarning("Classroom does not exist");
+                    ConsoleHelper.WaitForContinue();
                     return;
                 }
                 AddSchedule(db, courseId, classroomId);
+                ConsoleHelper.WaitForContinue();
+
             }
             catch
             {

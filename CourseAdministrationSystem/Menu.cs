@@ -25,7 +25,7 @@ public static class Menu
             Console.WriteLine("5. Grades");
             Console.WriteLine("6. Classrooms");
             Console.WriteLine("0. Exit");
-            Console.Write("\nSelect: ");
+            Console.WriteLine("\nSelect:");
 
             var key = Console.ReadKey(true).Key;
 
@@ -55,7 +55,7 @@ public static class Menu
             Console.WriteLine("5. Register Student to Course");
             Console.WriteLine("6. Show Student Overview");
             Console.WriteLine("0. Back");
-            Console.Write("\nSelect: ");
+            Console.WriteLine("\nSelect:");
 
             var key = Console.ReadKey(true).Key;
 
@@ -82,7 +82,8 @@ public static class Menu
             Console.WriteLine("2. List Courses");
             Console.WriteLine("3. Show Active Courses With Students");
             Console.WriteLine("0. Back");
-            Console.Write("\nSelect: ");
+            Console.WriteLine("\nSelect:");
+
 
             var key = Console.ReadKey(true).Key;
 
@@ -106,7 +107,8 @@ public static class Menu
             Console.WriteLine("3. Delete Teacher");
             Console.WriteLine("4. List Teachers");
             Console.WriteLine("0. Back");
-            Console.Write("\nSelect: ");
+            Console.WriteLine("\nSelect:");
+
 
             var key = Console.ReadKey(true).Key;
 
@@ -129,7 +131,8 @@ public static class Menu
             Console.WriteLine("====== SCHEDULE ======");
             Console.WriteLine("1. Add Schedule Entry");
             Console.WriteLine("0. Back");
-            Console.Write("\nSelect: ");
+            Console.WriteLine("\nSelect:");
+
 
             var key = Console.ReadKey(true).Key;
 
@@ -153,7 +156,7 @@ public static class Menu
             Console.WriteLine("4. Report - Half-year");
             Console.WriteLine("5. Report - Quarter");
             Console.WriteLine("0. Back");
-            Console.Write("\nSelect: ");
+            Console.WriteLine("\nSelect:");
 
             var key = Console.ReadKey(true).Key;
 
@@ -178,7 +181,8 @@ public static class Menu
             Console.WriteLine("1. Add Classroom");
             Console.WriteLine("2. List Classrooms");
             Console.WriteLine("0. Back");
-            Console.Write("\nSelect: ");
+            Console.WriteLine("\nSelect:");
+
 
             var key = Console.ReadKey(true).Key;
 

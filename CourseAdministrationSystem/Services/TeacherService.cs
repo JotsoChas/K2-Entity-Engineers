@@ -98,7 +98,8 @@ namespace CourseAdministrationSystem.Services
 
                 if (list.Count == 0)
                 {
-                    ConsoleHelper.WriteError("No teachers found.");
+                    ConsoleHelper.WriteWarning("No teachers found");
+                    ConsoleHelper.WaitForContinue();
                     return;
                 }
 
@@ -171,7 +172,7 @@ namespace CourseAdministrationSystem.Services
             try
             {
                 ListTeachers(db);
-                Console.ReadKey();
+                ConsoleHelper.WaitForContinue();
             }
             catch
             {

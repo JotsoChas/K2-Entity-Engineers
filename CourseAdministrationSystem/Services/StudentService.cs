@@ -21,6 +21,7 @@ namespace CourseAdministrationSystem.Services
                     if (!ConsoleHelper.Confirm("Student already exists. Add anyway?"))
                     {
                         ConsoleHelper.WriteWarning("Canceled");
+                        ConsoleHelper.WaitForContinue();
                         return 0;
                     }
                 }
@@ -96,13 +97,17 @@ namespace CourseAdministrationSystem.Services
             if (list.Count == 0)
             {
                 ConsoleHelper.WriteWarning("No students found");
-                ConsoleHelper.WaitForContinue(); return;
+                ConsoleHelper.WaitForContinue(); 
+                return;
             }
+
+            ConsoleHelper.WriteInfo("");
 
             foreach (var s in list)
                 Console.WriteLine($"{s.StudentId}: {s.StudentFirstName} {s.StudentLastName}");
 
-            ConsoleHelper.WaitForContinue(); return;
+            ConsoleHelper.WaitForContinue(); 
+            return;
         }
 
         // Student overview (SQL-style)
@@ -124,8 +129,8 @@ namespace CourseAdministrationSystem.Services
                     s.StudentFirstName,
                     s.StudentLastName,
                     c.CourseName,
-                    Grade = grade != null ? grade.Grade : 0,
-                    GradesDate = grade != null ? (DateTime?)grade.GradesDate : null,
+                    Grade = grade != null ? (int?)grade.Grade : null,
+                    GradesDate = grade != null ? grade.GradesDate : (DateTime?)null,
                     t.TeacherFirstName,
                     t.TeacherLastName
                 };
@@ -139,7 +144,7 @@ namespace CourseAdministrationSystem.Services
             }
 
             foreach (var row in list)
-                Console.WriteLine($"{row.StudentFirstName} {row.StudentLastName} - {row.CourseName} - Grade: {row.Grade} - {row.TeacherFirstName} {row.TeacherLastName} ({row.GradesDate})");
+                ConsoleHelper.WriteInfo($"{row.StudentFirstName} {row.StudentLastName} - {row.CourseName} - Grade: {row.Grade} - {row.TeacherFirstName} {row.TeacherLastName} ({row.GradesDate})");
 
             ConsoleHelper.WaitForContinue(); return;
         }
@@ -201,7 +206,8 @@ namespace CourseAdministrationSystem.Services
 
         public void ListStudentsMenu(K2DbContext db)
         {
-            ListStudents(db); return;
+            ListStudents(db); 
+            return;
         }
 
         public void ShowStudentOverviewMenu(K2DbContext db)

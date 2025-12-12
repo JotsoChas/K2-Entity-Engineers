@@ -12,7 +12,7 @@ namespace Utils
         public static void WriteSuccess(string message)
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"✓ {message}");
+            Console.WriteLine($"✓  {message}");
             Console.ResetColor();
         }
 
@@ -20,7 +20,7 @@ namespace Utils
         public static void WriteError(string message)
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"✗ {message}");
+            Console.WriteLine($"✗  {message}");
             Console.ResetColor();
             Console.ReadKey();
         }
@@ -29,7 +29,7 @@ namespace Utils
         public static void WriteWarning(string message)
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine($"⚠ {message}");
+            Console.WriteLine($"⚠  {message}");
             Console.ResetColor();
         }
 
@@ -37,7 +37,7 @@ namespace Utils
         public static void WriteInfo(string message)
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine($"ℹ {message}");
+            Console.WriteLine($"ℹ  {message}");
             Console.ResetColor();
         }
 
@@ -156,7 +156,7 @@ namespace Utils
         // ESC -> go one step back
         public static void WaitForContinue()
         {
-            Console.WriteLine("\nPress ENTER to return or ESC to go back...");
+            Console.WriteLine("\nPress ENTER to return to Menu or ESC to go back...");
 
             while (true)
             {

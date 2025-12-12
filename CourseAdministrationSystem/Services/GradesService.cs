@@ -23,7 +23,7 @@ namespace CourseAdministrationSystem.Services
                 db.Grades.Add(newGrade);
                 db.SaveChanges();
 
-                Console.WriteLine($"Grade created with ID: {newGrade.GradeId}");
+                ConsoleHelper.WriteSuccess($"Grade created with ID: {newGrade.GradeId}");
             }
             catch
             {
@@ -60,14 +60,16 @@ namespace CourseAdministrationSystem.Services
 
                 if (list.Count == 0)
                 {
-                    Console.WriteLine("No grade data found.");
+                    ConsoleHelper.WriteWarning("No grade data found.");
                     return;
                 }
 
                 foreach (var row in list)
                 {
-                    Console.WriteLine($"{row.CourseName} - {row.Grade} - {row.TeacherFirstName} {row.TeacherLastName} ({row.GradesDate})");
+                    ConsoleHelper.WriteInfo($"{row.CourseName} - {row.Grade} - {row.TeacherFirstName} {row.TeacherLastName} ({row.GradesDate})");
                 }
+                ConsoleHelper.WaitForContinue();
+
             }
             catch
             {
@@ -166,7 +168,8 @@ namespace CourseAdministrationSystem.Services
             {
                 if (result.Count == 0)
                 {
-                    Console.WriteLine("No data found.");
+                    ConsoleHelper.WriteWarning("No data found.");
+                    ConsoleHelper.WaitForContinue();
                     return;
                 }
 
@@ -176,8 +179,11 @@ namespace CourseAdministrationSystem.Services
                     var count = (int)(r.GetType().GetProperty("Count")?.GetValue(r) ?? 0);
 
                     var status = approved ? "Approved" : "Not approved";
-                    Console.WriteLine($"{status}: {count}");
+                    ConsoleHelper.WriteInfo($"{status}: {count}");
                 }
+
+                ConsoleHelper.WaitForContinue();
+
             }
             catch
             {
@@ -191,19 +197,42 @@ namespace CourseAdministrationSystem.Services
         {
             try
             {
-                Console.Write("Student ID: ");
-                int studentId = int.Parse(Console.ReadLine()!);
+                var studentInput = ConsoleHelper.SafePrompt("Student ID");
+                if (!int.TryParse(studentInput, out int studentId))
+                {
+                    ConsoleHelper.WriteWarning("Invalid student ID");
+                    ConsoleHelper.WaitForContinue();
+                    return;
+                }
 
-                Console.Write("Course ID: ");
-                int courseId = int.Parse(Console.ReadLine()!);
+                var courseInput = ConsoleHelper.SafePrompt("Course ID");
+                if (!int.TryParse(courseInput, out int courseId))
+                {
+                    ConsoleHelper.WriteWarning("Invalid course ID");
+                    ConsoleHelper.WaitForContinue();
+                    return;
+                }
 
-                Console.Write("Teacher ID: ");
-                int teacherId = int.Parse(Console.ReadLine()!);
+                var teacherInput = ConsoleHelper.SafePrompt("Teacher ID");
+                if (!int.TryParse(teacherInput, out int teacherId))
+                {
+                    ConsoleHelper.WriteWarning("Invalid teacher ID");
+                    ConsoleHelper.WaitForContinue();
+                    return;
+                }
 
-                Console.Write("Grade (1-5): ");
-                int grade = int.Parse(Console.ReadLine()!);
+                var gradeInput = ConsoleHelper.SafePrompt("Grade (1-5)");
+                if (!int.TryParse(gradeInput, out int grade) || grade < 1 || grade > 5)
+                {
+                    ConsoleHelper.WriteWarning("Grade must be between 1 and 5");
+                    ConsoleHelper.WaitForContinue();
+                    return;
+                }
 
                 AddGrade(db, studentId, courseId, teacherId, grade);
+                ConsoleHelper.WaitForContinue();
+
+
             }
             catch
             {
@@ -217,8 +246,13 @@ namespace CourseAdministrationSystem.Services
         {
             try
             {
-                Console.Write("Student ID: ");
-                int id = int.Parse(Console.ReadLine()!);
+                var input = ConsoleHelper.SafePrompt("Student ID");
+                if (!int.TryParse(input, out int id))
+                {
+                    ConsoleHelper.WriteWarning("Invalid student ID");
+                    ConsoleHelper.WaitForContinue();
+                    return;
+                }
 
                 ShowGradeOverview(db, id);
             }
@@ -234,8 +268,13 @@ namespace CourseAdministrationSystem.Services
         {
             try
             {
-                Console.Write("Year: ");
-                int year = int.Parse(Console.ReadLine()!);
+                var yearInput = ConsoleHelper.SafePrompt("Year");
+                if (!int.TryParse(yearInput, out int year))
+                {
+                    ConsoleHelper.WriteWarning("Invalid year");
+                    ConsoleHelper.WaitForContinue();
+                    return;
+                }
 
                 ReportYear(db, year);
             }
@@ -251,11 +290,21 @@ namespace CourseAdministrationSystem.Services
         {
             try
             {
-                Console.Write("Year: ");
-                int year = int.Parse(Console.ReadLine()!);
+                var yearInput = ConsoleHelper.SafePrompt("Year");
+                if (!int.TryParse(yearInput, out int year))
+                {
+                    ConsoleHelper.WriteWarning("Invalid year");
+                    ConsoleHelper.WaitForContinue();
+                    return;
+                }
 
-                Console.Write("Half (1 or 2): ");
-                int half = int.Parse(Console.ReadLine()!);
+                var halfInput = ConsoleHelper.SafePrompt("Half (1 or 2)");
+                if (!int.TryParse(halfInput, out int half) || (half != 1 && half != 2))
+                {
+                    ConsoleHelper.WriteWarning("Half must be 1 or 2");
+                    ConsoleHelper.WaitForContinue();
+                    return;
+                }
 
                 ReportHalfYear(db, year, half);
             }
@@ -271,11 +320,21 @@ namespace CourseAdministrationSystem.Services
         {
             try
             {
-                Console.Write("Year: ");
-                int year = int.Parse(Console.ReadLine()!);
+                var yearInput = ConsoleHelper.SafePrompt("Year");
+                if (!int.TryParse(yearInput, out int year))
+                {
+                    ConsoleHelper.WriteWarning("Invalid year");
+                    ConsoleHelper.WaitForContinue();
+                    return;
+                }
 
-                Console.Write("Quarter (1-4): ");
-                int quarter = int.Parse(Console.ReadLine()!);
+                var quarterInput = ConsoleHelper.SafePrompt("Quarter (1-4)");
+                if (!int.TryParse(quarterInput, out int quarter) || quarter < 1 || quarter > 4)
+                {
+                    ConsoleHelper.WriteWarning("Quarter must be between 1 and 4");
+                    ConsoleHelper.WaitForContinue();
+                    return;
+                }
 
                 ReportQuarter(db, year, quarter);
             }

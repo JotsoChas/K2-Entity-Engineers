@@ -54,10 +54,12 @@ namespace CourseAdministrationSystem.Services
                     return;
                 }
                 AddSchedule(db, courseId, classroomId);
+                ConsoleHelper.WaitForContinue();
             }
             catch
             {
                 ConsoleHelper.WriteError("Oooops! Something went wrong here");
+                ConsoleHelper.WaitForContinue();
             }
 
 

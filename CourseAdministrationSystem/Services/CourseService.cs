@@ -184,10 +184,12 @@ namespace CourseAdministrationSystem.Services
                 int classroomId = int.Parse(Console.ReadLine()!);
 
                 AddCourse(db, name!, start, end, teacherId, classroomId);
+                ConsoleHelper.WaitForContinue();
             }
             catch
             {
                 ConsoleHelper.WriteError("Something went wrong. Failed to add new course!");
+                ConsoleHelper.WaitForContinue();
             }
            
         }
@@ -198,6 +200,7 @@ namespace CourseAdministrationSystem.Services
             int id = int.Parse(Console.ReadLine()!);
 
             EditCourse(db, id);
+            ConsoleHelper.WaitForContinue();
         }
 
         public void DeleteCourseMenu(K2DbContext db)
@@ -206,6 +209,7 @@ namespace CourseAdministrationSystem.Services
             int id = int.Parse(Console.ReadLine()!);
 
             DeleteCourse(db, id);
+            ConsoleHelper.WaitForContinue();
         }
 
         public void ListCoursesMenu(K2DbContext db)
@@ -228,11 +232,12 @@ namespace CourseAdministrationSystem.Services
             try
             {
                 ShowActiveCourses(db);
-                Console.ReadKey();
+                ConsoleHelper.WaitForContinue();
             }
             catch
             {
                 ConsoleHelper.WriteError("Could not find any active courses");
+                ConsoleHelper.WaitForContinue();
             }
             
         }

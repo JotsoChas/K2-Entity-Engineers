@@ -60,10 +60,12 @@ namespace CourseAdministrationSystem.Services
             try
             {
                 AddClassroom(db);
+                ConsoleHelper.WaitForContinue();
             }
             catch
             {
                 ConsoleHelper.WriteError("Failed to create new Classroom");
+                ConsoleHelper.WaitForContinue();
             }
          }
             
@@ -72,6 +74,7 @@ namespace CourseAdministrationSystem.Services
         public void ListClassroomsMenu(K2DbContext db)
         {
             ListClassrooms(db);
+            ConsoleHelper.WaitForContinue();
         }
     }
 }

@@ -61,6 +61,7 @@ namespace CourseAdministrationSystem.Services
             catch
             {
                 ConsoleHelper.WriteError("Something went wrong editing teacher");
+                
             }
    
         }
@@ -104,12 +105,12 @@ namespace CourseAdministrationSystem.Services
 
                 foreach (var t in list)
                 {
-                    Console.WriteLine($"{t.TeacherId}: {t.TeacherFirstName} {t.TeacherLastName}");
+                    Console.WriteLine($"{t.TeacherId}: {t.TeacherFirstName} {t.TeacherLastName}");                 
                 }
             }
             catch (Exception ex)
             {
-                ConsoleHelper.WriteError(ex.Message);
+                ConsoleHelper.WriteError(ex.Message);                
             }
  
         }
@@ -126,10 +127,12 @@ namespace CourseAdministrationSystem.Services
                 var last = Console.ReadLine();
 
                 AddTeacher(db, first!, last!);
+                ConsoleHelper.WaitForContinue();
             }
             catch
             {
                 ConsoleHelper.WriteError("Could not add teacher - returning to menu");
+                ConsoleHelper.WaitForContinue();
             }
            
         }
@@ -142,10 +145,12 @@ namespace CourseAdministrationSystem.Services
                 int id = int.Parse(Console.ReadLine()!);
 
                 EditTeacher(db, id);
+                ConsoleHelper.WaitForContinue();
             }
             catch
             {
                 ConsoleHelper.WriteError("Could not edit teacher - returning to menu");
+                ConsoleHelper.WaitForContinue();
             }
     
         }
@@ -158,10 +163,12 @@ namespace CourseAdministrationSystem.Services
                 int id = int.Parse(Console.ReadLine()!);
 
                 DeleteTeacher(db, id);
+                ConsoleHelper.WaitForContinue();
             }
             catch
             {
                 ConsoleHelper.WriteError("Something went wrong trying to delete teacher - returning to menu");
+                ConsoleHelper.WaitForContinue();
             }
 
         }
@@ -171,11 +178,12 @@ namespace CourseAdministrationSystem.Services
             try
             {
                 ListTeachers(db);
-                Console.ReadKey();
+                ConsoleHelper.WaitForContinue();
             }
             catch
             {
                 ConsoleHelper.WriteError("Could not find teachers");
+                ConsoleHelper.WaitForContinue();
             }
             
         }

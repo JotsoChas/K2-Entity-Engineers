@@ -92,10 +92,12 @@ namespace CourseAdministrationSystem.Services
                .ToList();
 
                 ShowReport(result);
+                ConsoleHelper.WaitForContinue();
             }
             catch
             {
                 ConsoleHelper.WriteError("Failed to create report");
+                ConsoleHelper.WaitForContinue();
             }
            
         }
@@ -121,10 +123,12 @@ namespace CourseAdministrationSystem.Services
                     .ToList();
 
                 ShowReport(result);
+                ConsoleHelper.WaitForContinue();
             }
             catch
             {
                 ConsoleHelper.WriteError("Failed to create report");
+                ConsoleHelper.WaitForContinue();
             }
 
         }
@@ -150,10 +154,12 @@ namespace CourseAdministrationSystem.Services
                     .ToList();
 
                 ShowReport(result);
+                ConsoleHelper.WaitForContinue();
             }
             catch
             {
                 ConsoleHelper.WriteError("Failed to create report");
+                ConsoleHelper.WaitForContinue();
             }
 
 
@@ -204,10 +210,12 @@ namespace CourseAdministrationSystem.Services
                 int grade = int.Parse(Console.ReadLine()!);
 
                 AddGrade(db, studentId, courseId, teacherId, grade);
+                ConsoleHelper.WaitForContinue();
             }
             catch
             {
                 ConsoleHelper.WriteError("Something went wrong. Returning to menu");
+                ConsoleHelper.WaitForContinue();
             }
 
         }
@@ -221,10 +229,12 @@ namespace CourseAdministrationSystem.Services
                 int id = int.Parse(Console.ReadLine()!);
 
                 ShowGradeOverview(db, id);
+                ConsoleHelper.WaitForContinue();
             }
             catch
             {
                 ConsoleHelper.WriteError("Something went wrong...");
+                ConsoleHelper.WaitForContinue();
             }
            
         }
@@ -238,10 +248,12 @@ namespace CourseAdministrationSystem.Services
                 int year = int.Parse(Console.ReadLine()!);
 
                 ReportYear(db, year);
+                ConsoleHelper.WaitForContinue();
             }
             catch
             {
                 ConsoleHelper.WriteError("Something went wrong...");
+                ConsoleHelper.WaitForContinue();
             }
 
         }
@@ -258,10 +270,12 @@ namespace CourseAdministrationSystem.Services
                 int half = int.Parse(Console.ReadLine()!);
 
                 ReportHalfYear(db, year, half);
+                ConsoleHelper.WaitForContinue();
             }
             catch
             {
                 ConsoleHelper.WriteError("Something went wrong...");
+                ConsoleHelper.WaitForContinue();
             }
  
         }
@@ -278,10 +292,12 @@ namespace CourseAdministrationSystem.Services
                 int quarter = int.Parse(Console.ReadLine()!);
 
                 ReportQuarter(db, year, quarter);
+                ConsoleHelper.WaitForContinue();
             }
             catch
             {
                 ConsoleHelper.WriteError("Something went wrong...");
+                ConsoleHelper.WaitForContinue();
             }
 
         }

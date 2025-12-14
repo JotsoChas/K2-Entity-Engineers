@@ -1,0 +1,20 @@
+﻿DELETE FROM Grades;
+DBCC CHECKIDENT ('Grades', RESEED, 0);
+
+DELETE FROM Schedule;
+DBCC CHECKIDENT ('Schedule', RESEED, 0);
+
+DELETE FROM StudentCourses;
+DBCC CHECKIDENT ('StudentCourses', RESEED, 0);
+
+DELETE FROM Student;
+DBCC CHECKIDENT ('Student', RESEED, 0);
+
+DELETE FROM Courses;
+DBCC CHECKIDENT ('Courses', RESEED, 0);
+
+DELETE FROM Teacher;
+DBCC CHECKIDENT ('Teacher', RESEED, 0);
+
+DELETE FROM Classroom;
+DBCC CHECKIDENT ('Classroom', RESEED, 0);
